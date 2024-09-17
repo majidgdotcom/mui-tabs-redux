@@ -1,21 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
-import { customerList } from '../../mockData/customers';
+import { CustomerData, mockCustomerList } from '../../mockData/customers';
 import { EntityListTabProps } from '../../stateManagement/tabsSlice';
 
 const Customers: React.FC<EntityListTabProps> = ({ tabId, openEntity }) => {
+  const [customerList, setCustomerList] = useState<CustomerData[]>([]);
 
   const handleNewCustomer = () => {
-    openEntity('Customer',0, '', tabId, closeCustomer);
+    openEntity('Customer', 0, '', tabId, closeCustomer);
   };
 
   const handleEditCustomer = (customerId: number, customerName: string) => {
-    openEntity('Customer',customerId, customerName, tabId, closeCustomer);
+    openEntity('Customer', customerId, customerName, tabId, closeCustomer);
   };
 
   const closeCustomer = () => {
-    //refresh data list
+    // Refresh data list by calling API
+    getAllCustomer()
   };
+
+  const getAllCustomer = () => {
+    // Get data list by API or mock data
+    setCustomerList(mockCustomerList);
+  };
+
+  useEffect(() => {
+    getAllCustomer()
+  }, [tabId]);
 
   return (
     <div>

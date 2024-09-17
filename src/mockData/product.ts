@@ -5,7 +5,7 @@ export interface ProductData {
     category: string;
   }
   
-  export const productList: ProductData[] = [
+  export const mockProductList: ProductData[] = [
     { id: 1, name: 'Laptop', price: 999, category: 'Electronics' },
     { id: 2, name: 'Smartphone', price: 699, category: 'Electronics' },
     { id: 3, name: 'Chair', price: 120, category: 'Furniture' },

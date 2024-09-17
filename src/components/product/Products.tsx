@@ -1,21 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
-import { productList } from '../../mockData/product';
+import { mockProductList, ProductData } from '../../mockData/product';
 import { EntityListTabProps } from '../../stateManagement/tabsSlice';
 
 const Products: React.FC<EntityListTabProps> = ({ tabId, openEntity }) => {
+  const [productList, setProductList] = useState<ProductData[]>([]);
 
   const handleNewProduct = () => {
-    openEntity('Product',0, '', tabId, closeProduct);
+    openEntity('Product', 0, '', tabId, closeProduct);
   };
 
   const handleEditProduct = (productId: number, productName: string) => {
-    openEntity('Product',productId, productName, tabId, closeProduct);
+    openEntity('Product', productId, productName, tabId, closeProduct);
   };
 
   const closeProduct = () => {
-    //refresh data list
+    // Refresh data list by calling API
+    getAllProduct()
   };
+
+  const getAllProduct = () => {
+    // Get data list by API or mock data
+    setProductList(mockProductList);
+  };
+
+  useEffect(() => {
+    getAllProduct()
+  }, [tabId]);
 
   return (
     <div>

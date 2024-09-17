@@ -1,19 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { EntityTabProps } from "../../stateManagement/tabsSlice";
-import { Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
+import { CustomerData, mockCustomerList } from '../../mockData/customers';
 
-const Customer: React.FC<EntityTabProps> = ({ tabId, entityId, entityTitle,listTabId, closeEntity, handleRemoveTab }) => {
+const Customer: React.FC<EntityTabProps> = ({ tabId, entityId, listTabId, closeEntity, handleRemoveTab }) => {
+  const [data, setData] = useState<CustomerData | null>(null);
 
   const Save = () => {
+    // Call API to save
     closeEntity()
-    handleRemoveTab(tabId,listTabId)
+    handleRemoveTab(tabId, listTabId)
   };
+
+  const getCustomer = () => {
+    // Get data from mock data or API
+    const customer = mockCustomerList.find((index) => index.id === entityId);
+    setData(customer || null);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setData((prevData) => prevData ? { ...prevData, [name]: value } : null);
+  };
+
+  useEffect(() => {
+    getCustomer()
+  }, [tabId]);
 
   return (
     <div>
-      <h2>Customer ID: {entityId}</h2>
-      <h2>Customer Title: {entityTitle}</h2>
-
+      <TextField
+        label="Name"
+        name="name"
+        value={data?.name}
+        onChange={handleInputChange}
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Email"
+        name="email"
+        value={data?.email}
+        onChange={handleInputChange}
+        fullWidth
+        margin="normal"
+      />
       <Button
         variant="contained"
         color="primary"

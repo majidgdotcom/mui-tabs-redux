@@ -4,7 +4,7 @@ export interface CustomerData {
     email: string;
   }
   
-  export const customerList: CustomerData[] = [
+  export const mockCustomerList: CustomerData[] = [
     { id: 1, name: 'John Doe', email: 'john@example.com' },
     { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
     { id: 3, name: 'Robert Johnson', email: 'robert@example.com' },
