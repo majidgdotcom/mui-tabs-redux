@@ -14,66 +14,50 @@ const TabsComponent: React.FC = () => {
   const dispatch = useDispatch();
   const { tabs, activeTabIndex } = useSelector((state: any) => state.tabs);
 
-  const [lastListTab, setLastListTab ]= useState(0);
+  const [lastListTab, setLastListTab] = useState(0);
 
-  const handleRemoveTab = (tabIdd: number,listTabId: number) => {
+  const handleRemoveTab = (tabIdd: number, listTabId: number) => {
     dispatch(removeTab(tabIdd));
     dispatch(setActiveTab(listTabId ?? 0));
   };
 
-  const handleCustomer = (customerId: number, customerTitle: string, listTabId: number, closeCustomer: () => void) => {
+  const openEntityTab = (tabType: string, entityId: number, entityTitle: string, listTabId: number, closeTab: () => void) => {
     setLastListTab(listTabId)
     dispatch(
       addTab({
         tabId: Math.max(...tabs.map((item: TabData) => item.tabId), 0) + 1,
-        tabLabel: `${(customerId > 0 ? 'Customer Edit' : 'New Customer')}`,
-        tabType: 'customer',
+        tabLabel: `${(entityId > 0 ? `${tabType} Edit` : `New ${tabType}`)}`,
+        tabType: tabType,
         isRemovableTab: true,
-        entityId: customerId,
-        entityTitle: customerTitle,
-        listTabId:listTabId,
-        closeTab: closeCustomer,
-      })
-    );
-  };
-
-  const handleProduct = (productId: number, productTitle: string, listTabId: number, closeProduct: () => void) => {
-    setLastListTab(listTabId)
-    dispatch(
-      addTab({
-        tabId: Math.max(...tabs.map((item: TabData) => item.tabId), 0) + 1,
-        tabLabel: `${(productId > 0 ? 'Product Edit' : 'New Product')}`,
-        tabType: 'product',
-        isRemovableTab: true,
-        entityId: productId,
-        entityTitle: productTitle,
-        listTabId:listTabId,
-        closeTab: closeProduct,
+        entityId: entityId,
+        entityTitle: entityTitle,
+        listTabId: listTabId,
+        closeTab: closeTab,
       })
     );
   };
 
   const renderTabContent = (tab: TabData) => {
     switch (tab.tabType) {
-      case 'customers':
+      case 'Customers':
         return (
           <Suspense fallback={<div>Loading...</div>}>
             <Customers
               tabId={tab.tabId}
-              openEntity={handleCustomer}
+              openEntity={openEntityTab}
             />
           </Suspense>
         );
-      case 'products':
+      case 'Products':
         return (
           <Suspense fallback={<div>Loading...</div>}>
             <Products
               tabId={tab.tabId}
-              openEntity={handleProduct}
+              openEntity={openEntityTab}
             />
           </Suspense>
         );
-      case 'customer':
+      case 'Customer':
         return (
           <Suspense fallback={<div>Loading...</div>}>
             <Customer
@@ -86,7 +70,7 @@ const TabsComponent: React.FC = () => {
             />
           </Suspense>
         );
-      case 'product':
+      case 'Product':
         return (
           <Suspense fallback={<div>Loading...</div>}>
             <Product
@@ -118,7 +102,7 @@ const TabsComponent: React.FC = () => {
                     size="small"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleRemoveTab(tab.tabId,lastListTab);
+                      handleRemoveTab(tab.tabId, lastListTab);
                     }}
                   >
                     <CloseIcon fontSize="small" />

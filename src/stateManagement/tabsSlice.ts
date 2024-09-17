@@ -18,7 +18,7 @@ export interface TabsState {
 
 export interface EntityListTabProps {
   tabId: number;
-  openEntity: (entityId: number, entityTitle: string, listTabId: number, hadleCloseEntity: () => void) => void;
+  openEntity: (tabType: string, entityId: number, entityTitle: string, listTabId: number, hadleCloseEntity: () => void) => void;
 }
 
 export interface EntityTabProps {
@@ -36,8 +36,8 @@ const loadTabsFromLocalStorage = (): TabData[] => {
   return savedTabs
     ? JSON.parse(savedTabs)
     : [
-      { tabId: 0, tabLabel: 'customers', tabType: 'customers', isRemovableTab: false },
-      { tabId: 1, tabLabel: 'products', tabType: 'products', isRemovableTab: false },
+      { tabId: 0, tabLabel: 'Customers', tabType: 'Customers', isRemovableTab: false },
+      { tabId: 1, tabLabel: 'Products', tabType: 'Products', isRemovableTab: false },
     ];
 };
 

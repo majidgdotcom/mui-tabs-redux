@@ -6,11 +6,11 @@ import { EntityListTabProps } from '../../stateManagement/tabsSlice';
 const Customers: React.FC<EntityListTabProps> = ({ tabId, openEntity }) => {
 
   const handleNewCustomer = () => {
-    openEntity(0, '', tabId, closeCustomer);
+    openEntity('Customer',0, '', tabId, closeCustomer);
   };
 
   const handleEditCustomer = (customerId: number, customerName: string) => {
-    openEntity(customerId, customerName, tabId, closeCustomer);
+    openEntity('Customer',customerId, customerName, tabId, closeCustomer);
   };
 
   const closeCustomer = () => {
