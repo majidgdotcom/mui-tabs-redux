@@ -7,7 +7,7 @@ export interface TabData {
   isRemovableTab: boolean;
   entityId?: number;
   entityTitle?: string;
-  listTabId: number,
+  listTabId?: number,
   closeTab?: () => void;
 }
 
