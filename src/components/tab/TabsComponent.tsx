@@ -21,7 +21,7 @@ const TabsComponent: React.FC = () => {
     dispatch(setActiveTab(listTabId ?? 0));
   };
 
-  const openEntityTab = (tabType: string, entityId: number, entityTitle: string, listTabId: number, closeTab: () => void) => {
+  const openEntityTab = (tabType: string, entityId: number, entityTitle: string, listTabId: number, closeTab: () => void, customParameter?: any) => {
     setLastListTab(listTabId)
     dispatch(
       addTab({
@@ -33,6 +33,7 @@ const TabsComponent: React.FC = () => {
         entityTitle: entityTitle,
         listTabId: listTabId,
         closeTab: closeTab,
+        customParameter: customParameter,
       })
     );
   };
@@ -67,6 +68,7 @@ const TabsComponent: React.FC = () => {
               closeEntity={tab.closeTab!}
               handleRemoveTab={handleRemoveTab}
               listTabId={tab.listTabId!}
+              customParameter={tab.customParameter}
             />
           </Suspense>
         );
@@ -80,6 +82,7 @@ const TabsComponent: React.FC = () => {
               closeEntity={tab.closeTab!}
               handleRemoveTab={handleRemoveTab}
               listTabId={tab.listTabId!}
+              customParameter={tab.customParameter}
             />
           </Suspense>
         );

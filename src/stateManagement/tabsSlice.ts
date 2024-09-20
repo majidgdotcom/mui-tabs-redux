@@ -9,6 +9,7 @@ export interface TabData {
   entityTitle?: string;
   listTabId?: number,
   closeTab?: () => void;
+  customParameter?: any,
 }
 
 export interface TabsState {
@@ -18,7 +19,7 @@ export interface TabsState {
 
 export interface EntityListTabProps {
   tabId: number;
-  openEntity: (tabType: string, entityId: number, entityTitle: string, listTabId: number, hadleCloseEntity: () => void) => void;
+  openEntity: (tabType: string, entityId: number, entityTitle: string, listTabId: number, hadleCloseEntity: () => void, customParameter?: any) => void;
 }
 
 export interface EntityTabProps {
@@ -27,7 +28,8 @@ export interface EntityTabProps {
   entityTitle: string;
   listTabId: number,
   closeEntity: () => void;
-  handleRemoveTab: (id: number,listTabId: number) => void;
+  handleRemoveTab: (id: number, listTabId: number) => void;
+  customParameter?: any,
 }
 
 // Helper function to load tabs from localStorage
