@@ -68,8 +68,9 @@ export const tabsSlice = createSlice({
   initialState,
   reducers: {
     addTab: (state, action: PayloadAction<AddTabData>) => {
+      const newTabId = Math.max(...state.tabs.map((item: TabData) => item.tabId), 0) + 1;
       state.tabs.push({
-        tabId: Math.max(...state.tabs.map((item: TabData) => item.tabId), 0) + 1,
+        tabId: newTabId,
         tabType: action.payload.tabType,
         tabLabel: action.payload.tabLabel,
         isRemovableTab: action.payload.isRemovableTab,
@@ -78,12 +79,11 @@ export const tabsSlice = createSlice({
         closeTab: action.payload.closeTab,
         customParameter: action.payload.customParameter,
       });
-      state.activeTabIndex = state.tabs.length - 1;
+      state.activeTabIndex = newTabId;
       saveTabsToLocalStorage(state.tabs);
     },
     removeTab: (state, action: PayloadAction<removeTabData>) => {
-      const idToRemove = action.payload.tabId;
-      state.tabs = state.tabs.filter((tab) => tab.tabId !== idToRemove);
+      state.tabs = state.tabs.filter((tab) => tab.tabId !== action.payload.tabId);
       state.activeTabIndex = action.payload.parentTabId;
       saveTabsToLocalStorage(state.tabs);
     },
