@@ -21,6 +21,11 @@ export interface AddTabData {
   customParameter?: any,
 }
 
+export interface removeTabData {
+  tabId: number;
+  parentTabId: number;
+}
+
 export interface TabsState {
   tabs: TabData[];
   activeTabIndex: number;
@@ -35,7 +40,6 @@ export interface EntityTabProps {
   entityId: number;
   parentTabId: number,
   closeEntity: () => void;
-  handleRemoveTab: (id: number, parentTabId: number) => void;
   customParameter?: any,
 }
 
@@ -77,10 +81,10 @@ export const tabsSlice = createSlice({
       state.activeTabIndex = state.tabs.length - 1;
       saveTabsToLocalStorage(state.tabs);
     },
-    removeTab: (state, action: PayloadAction<number>) => {
-      const idToRemove = action.payload;
+    removeTab: (state, action: PayloadAction<removeTabData>) => {
+      const idToRemove = action.payload.tabId;
       state.tabs = state.tabs.filter((tab) => tab.tabId !== idToRemove);
-      state.activeTabIndex = Math.max(0, state.activeTabIndex - 1);
+      state.activeTabIndex = action.payload.parentTabId;
       saveTabsToLocalStorage(state.tabs);
     },
     setActiveTab: (state, action: PayloadAction<number>) => {

@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { EntityTabProps } from '../../stateManagement/tabsSlice';
 import { Button, TextField } from '@mui/material';
 import { mockProductList, ProductData } from '../../mockData/product';
-
-const Product: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId, closeEntity, handleRemoveTab,customParameter }) => {
+import { removeTab } from '../../stateManagement/tabsSlice'
+const Product: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId, closeEntity, customParameter }) => {
+  const dispatch = useDispatch();
   const [data, setData] = useState<ProductData | null>(null);
 
   const Save = () => {
     // Call API to save
     closeEntity()
-    handleRemoveTab(tabId, parentTabId)
+    dispatch(removeTab({ tabId, parentTabId }));
   };
 
   const getProduct = () => {

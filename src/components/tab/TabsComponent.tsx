@@ -1,22 +1,21 @@
 import React, { lazy, Suspense } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Tabs, Tab, Box, IconButton } from '@mui/material';  // Latest Material-UI
-import CloseIcon from '@mui/icons-material/Close';  // Latest Material-UI icons
+import { Tabs, Tab, Box, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { removeTab, setActiveTab, TabData } from '../../stateManagement/tabsSlice'
 
-const Customers = lazy(() => import('../customer/Customers'));  // Lazy load Customers component
-const Customer = lazy(() => import('../customer/Customer'));    // Lazy load Customer component
-const Products = lazy(() => import('../product/Products'));    // Lazy load Products component
-const Product = lazy(() => import('../product/Product'));    // Lazy load Products component
+const Customers = lazy(() => import('../customer/Customers'));
+const Customer = lazy(() => import('../customer/Customer'));
+const Products = lazy(() => import('../product/Products'));
+const Product = lazy(() => import('../product/Product'));
 
 
 const TabsComponent: React.FC = () => {
   const dispatch = useDispatch();
   const { tabs, activeTabIndex } = useSelector((state: any) => state.tabs);
 
-  const handleRemoveTab = (tabIdd: number, parentTabId: number) => {
-    dispatch(removeTab(tabIdd));
-    dispatch(setActiveTab(parentTabId));
+  const handleRemoveTab = (tabId: number, parentTabId: number) => {
+    dispatch(removeTab({ tabId, parentTabId }));
   };
 
   const renderTabContent = (tab: TabData) => {
@@ -44,7 +43,6 @@ const TabsComponent: React.FC = () => {
               tabId={tab.tabId}
               entityId={tab.entityId!}
               closeEntity={tab.closeTab!}
-              handleRemoveTab={handleRemoveTab}
               parentTabId={tab.parentTabId!}
               customParameter={tab.customParameter}
             />
@@ -57,7 +55,6 @@ const TabsComponent: React.FC = () => {
               tabId={tab.tabId}
               entityId={tab.entityId!}
               closeEntity={tab.closeTab!}
-              handleRemoveTab={handleRemoveTab}
               parentTabId={tab.parentTabId!}
               customParameter={tab.customParameter}
             />

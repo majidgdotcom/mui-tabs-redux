@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem } from '@mui/material';
 import { mockProductList, ProductData } from '../../mockData/product';
 import { EntityListTabProps } from '../../stateManagement/tabsSlice';
-import { addTab} from '../../stateManagement/tabsSlice'
+import { addTab } from '../../stateManagement/tabsSlice'
 import { useDispatch } from 'react-redux';
 
 const Products: React.FC<EntityListTabProps> = ({ tabId }) => {
