@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import { CustomerData, mockCustomerList } from '../../mockData/customers';
 import { EntityListTabProps } from '../../stateManagement/tabsSlice';
-import { addTab } from '../../stateManagement/tabsSlice'
-import { useDispatch } from 'react-redux';
+import { addTab, setNullRefreshedTab } from '../../stateManagement/tabsSlice'
+import { useSelector, useDispatch } from 'react-redux';
 
 const Customers: React.FC<EntityListTabProps> = ({ tabId }) => {
   const [customerList, setCustomerList] = useState<CustomerData[]>([]);
   const dispatch = useDispatch();
+  const { refreshedTab } = useSelector((state: any) => state.tabs);
 
   const handleNewCustomer = () => {
     dispatch(
@@ -17,7 +18,6 @@ const Customers: React.FC<EntityListTabProps> = ({ tabId }) => {
         isRemovableTab: true,
         entityId: 0,
         parentTabId: tabId,
-        closeTab: closeCustomer,
       })
     );
   };
@@ -30,24 +30,25 @@ const Customers: React.FC<EntityListTabProps> = ({ tabId }) => {
         isRemovableTab: true,
         entityId: customerId,
         parentTabId: tabId,
-        closeTab: closeCustomer,
       })
     );
   };
 
-  const closeCustomer = () => {
-    // Refresh data list by calling API
-    getAllCustomer()
-  };
-
   const getAllCustomer = () => {
-    // Get data list by API or mock data
+    console.log('Get Customer list by API or mock data')
     setCustomerList(mockCustomerList);
   };
 
   useEffect(() => {
     getAllCustomer()
-  }, [tabId]);
+  }, []);
+
+  useEffect(() => {
+    if (refreshedTab === tabId) {
+      dispatch(setNullRefreshedTab())
+      getAllCustomer()
+    }
+  }, [refreshedTab]);
 
   return (
     <div>

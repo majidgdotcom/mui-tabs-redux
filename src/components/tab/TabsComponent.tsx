@@ -42,7 +42,6 @@ const TabsComponent: React.FC = () => {
             <Customer
               tabId={tab.tabId}
               entityId={tab.entityId!}
-              closeEntity={tab.closeTab!}
               parentTabId={tab.parentTabId!}
               customParameter={tab.customParameter}
             />
@@ -54,7 +53,6 @@ const TabsComponent: React.FC = () => {
             <Product
               tabId={tab.tabId}
               entityId={tab.entityId!}
-              closeEntity={tab.closeTab!}
               parentTabId={tab.parentTabId!}
               customParameter={tab.customParameter}
             />

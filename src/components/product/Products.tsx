@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem } from '@mui/material';
 import { mockProductList, ProductData } from '../../mockData/product';
 import { EntityListTabProps } from '../../stateManagement/tabsSlice';
-import { addTab } from '../../stateManagement/tabsSlice'
-import { useDispatch } from 'react-redux';
+import { addTab, setNullRefreshedTab } from '../../stateManagement/tabsSlice'
+import { useSelector, useDispatch } from 'react-redux';
 
 const Products: React.FC<EntityListTabProps> = ({ tabId }) => {
   const [productList, setProductList] = useState<ProductData[]>([]);
   const [type, setType] = useState<number>(3);
   const dispatch = useDispatch();
+  const { refreshedTab } = useSelector((state: any) => state.tabs);
 
   const handleNewProduct = () => {
     dispatch(
@@ -18,7 +19,6 @@ const Products: React.FC<EntityListTabProps> = ({ tabId }) => {
         isRemovableTab: true,
         entityId: 0,
         parentTabId: tabId,
-        closeTab: closeProduct,
         customParameter: {
           type: type
         },
@@ -34,7 +34,6 @@ const Products: React.FC<EntityListTabProps> = ({ tabId }) => {
         isRemovableTab: true,
         entityId: productId,
         parentTabId: tabId,
-        closeTab: closeProduct,
         customParameter: {
           type: type
         },
@@ -42,19 +41,21 @@ const Products: React.FC<EntityListTabProps> = ({ tabId }) => {
     );
   };
 
-  const closeProduct = () => {
-    // Refresh data list by calling API
-    getAllProduct()
-  };
-
   const getAllProduct = () => {
-    // Get data list by API or mock data
+    console.log('Get Product list by API or mock data')
     setProductList(mockProductList);
   };
 
   useEffect(() => {
     getAllProduct()
-  }, [tabId]);
+  }, []);
+
+  useEffect(() => {
+    if (refreshedTab === tabId) {
+      dispatch(setNullRefreshedTab())
+      getAllProduct()
+    }
+  }, [refreshedTab]);
 
   return (
     <div>

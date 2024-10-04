@@ -7,7 +7,6 @@ export interface TabData {
   isRemovableTab: boolean;
   entityId?: number;
   parentTabId?: number,
-  closeTab?: () => void;
   customParameter?: any,
 }
 
@@ -17,7 +16,6 @@ export interface AddTabData {
   isRemovableTab: boolean;
   entityId?: number;
   parentTabId?: number,
-  closeTab?: () => void;
   customParameter?: any,
 }
 
@@ -26,9 +24,15 @@ export interface removeTabData {
   parentTabId: number;
 }
 
+export interface removeTabAndRefreshData {
+  tabId: number;
+  parentTabId: number;
+}
+
 export interface TabsState {
   tabs: TabData[];
   activeTabIndex: number;
+  refreshedTab?: number;
 }
 
 export interface EntityListTabProps {
@@ -39,7 +43,6 @@ export interface EntityTabProps {
   tabId: number;
   entityId: number;
   parentTabId: number,
-  closeEntity: () => void;
   customParameter?: any,
 }
 
@@ -76,7 +79,6 @@ export const tabsSlice = createSlice({
         isRemovableTab: action.payload.isRemovableTab,
         entityId: action.payload.entityId,
         parentTabId: action.payload.parentTabId,
-        closeTab: action.payload.closeTab,
         customParameter: action.payload.customParameter,
       });
       state.activeTabIndex = newTabId;
@@ -87,13 +89,22 @@ export const tabsSlice = createSlice({
       state.activeTabIndex = action.payload.parentTabId;
       saveTabsToLocalStorage(state.tabs);
     },
+    removeTabAndRefresh: (state, action: PayloadAction<removeTabAndRefreshData>) => {
+      state.tabs = state.tabs.filter((tab) => tab.tabId !== action.payload.tabId);
+      state.activeTabIndex = action.payload.parentTabId;
+      state.refreshedTab = action.payload.parentTabId;
+      saveTabsToLocalStorage(state.tabs);
+    },
     setActiveTab: (state, action: PayloadAction<number>) => {
       state.activeTabIndex = action.payload;
       saveTabsToLocalStorage(state.tabs);
     },
+    setNullRefreshedTab: (state) => {
+      state.refreshedTab = undefined;
+    },
   },
 });
 
-export const { addTab, removeTab, setActiveTab } = tabsSlice.actions;
+export const { addTab, removeTab, setActiveTab, removeTabAndRefresh, setNullRefreshedTab } = tabsSlice.actions;
 
 export default tabsSlice.reducer;

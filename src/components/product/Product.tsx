@@ -3,15 +3,14 @@ import { useDispatch } from 'react-redux';
 import { EntityTabProps } from '../../stateManagement/tabsSlice';
 import { Button, TextField } from '@mui/material';
 import { mockProductList, ProductData } from '../../mockData/product';
-import { removeTab } from '../../stateManagement/tabsSlice'
-const Product: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId, closeEntity, customParameter }) => {
+import { removeTabAndRefresh } from '../../stateManagement/tabsSlice'
+const Product: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId, customParameter }) => {
   const dispatch = useDispatch();
   const [data, setData] = useState<ProductData | null>(null);
 
   const Save = () => {
     // Call API to save
-    closeEntity()
-    dispatch(removeTab({ tabId, parentTabId }));
+    dispatch(removeTabAndRefresh({ tabId, parentTabId }));
   };
 
   const getProduct = () => {
@@ -27,7 +26,7 @@ const Product: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId, close
 
   useEffect(() => {
     getProduct()
-  }, [tabId]);
+  }, []);
 
   return (
     <div>

@@ -3,15 +3,14 @@ import { useDispatch } from 'react-redux';
 import { EntityTabProps } from "../../stateManagement/tabsSlice";
 import { Button, TextField } from '@mui/material';
 import { CustomerData, mockCustomerList } from '../../mockData/customers';
-import { removeTab } from '../../stateManagement/tabsSlice'
-const Customer: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId, closeEntity }) => {
+import { removeTabAndRefresh } from '../../stateManagement/tabsSlice'
+const Customer: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId }) => {
   const dispatch = useDispatch();
   const [data, setData] = useState<CustomerData | null>(null);
 
   const Save = () => {
     // Call API to save
-    closeEntity()
-    dispatch(removeTab({ tabId, parentTabId }));
+    dispatch(removeTabAndRefresh({ tabId, parentTabId }));
   };
 
   const getCustomer = () => {
@@ -27,7 +26,7 @@ const Customer: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId, clos
 
   useEffect(() => {
     getCustomer()
-  }, [tabId]);
+  }, []);
 
   return (
     <div>
