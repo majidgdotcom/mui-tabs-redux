@@ -3,13 +3,13 @@ import { EntityTabProps } from '../../stateManagement/tabsSlice';
 import { Button, TextField } from '@mui/material';
 import { mockProductList, ProductData } from '../../mockData/product';
 
-const Product: React.FC<EntityTabProps> = ({ tabId, entityId, listTabId, closeEntity, handleRemoveTab,customParameter }) => {
+const Product: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId, closeEntity, handleRemoveTab,customParameter }) => {
   const [data, setData] = useState<ProductData | null>(null);
 
   const Save = () => {
     // Call API to save
     closeEntity()
-    handleRemoveTab(tabId, listTabId)
+    handleRemoveTab(tabId, parentTabId)
   };
 
   const getProduct = () => {
@@ -30,7 +30,7 @@ const Product: React.FC<EntityTabProps> = ({ tabId, entityId, listTabId, closeEn
   return (
     <div>
       <h2>
-        Type:{customParameter}
+        Type:{customParameter.type}
       </h2>
       <TextField
         label="Name"

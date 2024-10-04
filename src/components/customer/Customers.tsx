@@ -2,16 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import { CustomerData, mockCustomerList } from '../../mockData/customers';
 import { EntityListTabProps } from '../../stateManagement/tabsSlice';
+import { addTab} from '../../stateManagement/tabsSlice'
+import { useDispatch } from 'react-redux';
 
-const Customers: React.FC<EntityListTabProps> = ({ tabId, openEntity }) => {
+const Customers: React.FC<EntityListTabProps> = ({ tabId }) => {
   const [customerList, setCustomerList] = useState<CustomerData[]>([]);
+  const dispatch = useDispatch();
 
   const handleNewCustomer = () => {
-    openEntity('Customer', 0, '', tabId, closeCustomer);
+    dispatch(
+      addTab({
+        tabType: 'Customer',
+        tabLabel: 'New customer',
+        isRemovableTab: true,
+        entityId: 0,
+        parentTabId: tabId,
+        closeTab: closeCustomer,
+      })
+    );
   };
 
-  const handleEditCustomer = (customerId: number, customerName: string) => {
-    openEntity('Customer', customerId, customerName, tabId, closeCustomer);
+  const handleEditCustomer = (customerId: number) => {
+    dispatch(
+      addTab({
+        tabType: 'Customer',
+        tabLabel: 'Edit customer',
+        isRemovableTab: true,
+        entityId: customerId,
+        parentTabId: tabId,
+        closeTab: closeCustomer,
+      })
+    );
   };
 
   const closeCustomer = () => {
@@ -58,7 +79,7 @@ const Customers: React.FC<EntityListTabProps> = ({ tabId, openEntity }) => {
                   <Button
                     variant="outlined"
                     color="primary"
-                    onClick={() => handleEditCustomer(customer.id, customer.name)}
+                    onClick={() => handleEditCustomer(customer.id)}
                   >
                     Edit
                   </Button>

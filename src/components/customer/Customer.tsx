@@ -3,13 +3,13 @@ import { EntityTabProps } from "../../stateManagement/tabsSlice";
 import { Button, TextField } from '@mui/material';
 import { CustomerData, mockCustomerList } from '../../mockData/customers';
 
-const Customer: React.FC<EntityTabProps> = ({ tabId, entityId, listTabId, closeEntity, handleRemoveTab }) => {
+const Customer: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId, closeEntity, handleRemoveTab }) => {
   const [data, setData] = useState<CustomerData | null>(null);
 
   const Save = () => {
     // Call API to save
     closeEntity()
-    handleRemoveTab(tabId, listTabId)
+    handleRemoveTab(tabId, parentTabId)
   };
 
   const getCustomer = () => {

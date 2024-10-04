@@ -2,12 +2,21 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface TabData {
   tabId: number;
-  tabLabel: string;
   tabType: string;
+  tabLabel: string;
   isRemovableTab: boolean;
   entityId?: number;
-  entityTitle?: string;
-  listTabId?: number,
+  parentTabId?: number,
+  closeTab?: () => void;
+  customParameter?: any,
+}
+
+export interface AddTabData {
+  tabType: string;
+  tabLabel: string;
+  isRemovableTab: boolean;
+  entityId?: number;
+  parentTabId?: number,
   closeTab?: () => void;
   customParameter?: any,
 }
@@ -19,16 +28,14 @@ export interface TabsState {
 
 export interface EntityListTabProps {
   tabId: number;
-  openEntity: (tabType: string, entityId: number, entityTitle: string, listTabId: number, hadleCloseEntity: () => void, customParameter?: any) => void;
 }
 
 export interface EntityTabProps {
   tabId: number;
   entityId: number;
-  entityTitle: string;
-  listTabId: number,
+  parentTabId: number,
   closeEntity: () => void;
-  handleRemoveTab: (id: number, listTabId: number) => void;
+  handleRemoveTab: (id: number, parentTabId: number) => void;
   customParameter?: any,
 }
 
@@ -56,8 +63,17 @@ export const tabsSlice = createSlice({
   name: 'tabs',
   initialState,
   reducers: {
-    addTab: (state, action: PayloadAction<TabData>) => {
-      state.tabs.push(action.payload);
+    addTab: (state, action: PayloadAction<AddTabData>) => {
+      state.tabs.push({
+        tabId: Math.max(...state.tabs.map((item: TabData) => item.tabId), 0) + 1,
+        tabType: action.payload.tabType,
+        tabLabel: action.payload.tabLabel,
+        isRemovableTab: action.payload.isRemovableTab,
+        entityId: action.payload.entityId,
+        parentTabId: action.payload.parentTabId,
+        closeTab: action.payload.closeTab,
+        customParameter: action.payload.customParameter,
+      });
       state.activeTabIndex = state.tabs.length - 1;
       saveTabsToLocalStorage(state.tabs);
     },

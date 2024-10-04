@@ -2,17 +2,44 @@ import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem } from '@mui/material';
 import { mockProductList, ProductData } from '../../mockData/product';
 import { EntityListTabProps } from '../../stateManagement/tabsSlice';
+import { addTab} from '../../stateManagement/tabsSlice'
+import { useDispatch } from 'react-redux';
 
-const Products: React.FC<EntityListTabProps> = ({ tabId, openEntity }) => {
+const Products: React.FC<EntityListTabProps> = ({ tabId }) => {
   const [productList, setProductList] = useState<ProductData[]>([]);
   const [type, setType] = useState<number>(3);
+  const dispatch = useDispatch();
 
   const handleNewProduct = () => {
-    openEntity('Product', 0, '', tabId, closeProduct, type);
+    dispatch(
+      addTab({
+        tabType: 'Product',
+        tabLabel: 'New product',
+        isRemovableTab: true,
+        entityId: 0,
+        parentTabId: tabId,
+        closeTab: closeProduct,
+        customParameter: {
+          type: type
+        },
+      })
+    );
   };
 
-  const handleEditProduct = (productId: number, productName: string) => {
-    openEntity('Product', productId, productName, tabId, closeProduct, type);
+  const handleEditProduct = (productId: number) => {
+    dispatch(
+      addTab({
+        tabType: 'Product',
+        tabLabel: 'Edit product',
+        isRemovableTab: true,
+        entityId: productId,
+        parentTabId: tabId,
+        closeTab: closeProduct,
+        customParameter: {
+          type: type
+        },
+      })
+    );
   };
 
   const closeProduct = () => {
@@ -70,7 +97,7 @@ const Products: React.FC<EntityListTabProps> = ({ tabId, openEntity }) => {
                   <Button
                     variant="outlined"
                     color="primary"
-                    onClick={() => handleEditProduct(product.id, product.name)}
+                    onClick={() => handleEditProduct(product.id)}
                   >
                     Edit
                   </Button>

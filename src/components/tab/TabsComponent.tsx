@@ -1,8 +1,8 @@
-import React, { lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Tabs, Tab, Box, IconButton } from '@mui/material';  // Latest Material-UI
 import CloseIcon from '@mui/icons-material/Close';  // Latest Material-UI icons
-import { addTab, removeTab, setActiveTab, TabData } from '../../stateManagement/tabsSlice'
+import { removeTab, setActiveTab, TabData } from '../../stateManagement/tabsSlice'
 
 const Customers = lazy(() => import('../customer/Customers'));  // Lazy load Customers component
 const Customer = lazy(() => import('../customer/Customer'));    // Lazy load Customer component
@@ -14,28 +14,9 @@ const TabsComponent: React.FC = () => {
   const dispatch = useDispatch();
   const { tabs, activeTabIndex } = useSelector((state: any) => state.tabs);
 
-  const [lastListTab, setLastListTab] = useState(0);
-
-  const handleRemoveTab = (tabIdd: number, listTabId: number) => {
+  const handleRemoveTab = (tabIdd: number, parentTabId: number) => {
     dispatch(removeTab(tabIdd));
-    dispatch(setActiveTab(listTabId ?? 0));
-  };
-
-  const openEntityTab = (tabType: string, entityId: number, entityTitle: string, listTabId: number, closeTab: () => void, customParameter?: any) => {
-    setLastListTab(listTabId)
-    dispatch(
-      addTab({
-        tabId: Math.max(...tabs.map((item: TabData) => item.tabId), 0) + 1,
-        tabLabel: `${(entityId > 0 ? `${tabType} Edit` : `New ${tabType}`)}`,
-        tabType: tabType,
-        isRemovableTab: true,
-        entityId: entityId,
-        entityTitle: entityTitle,
-        listTabId: listTabId,
-        closeTab: closeTab,
-        customParameter: customParameter,
-      })
-    );
+    dispatch(setActiveTab(parentTabId));
   };
 
   const renderTabContent = (tab: TabData) => {
@@ -45,7 +26,6 @@ const TabsComponent: React.FC = () => {
           <Suspense fallback={<div>Loading...</div>}>
             <Customers
               tabId={tab.tabId}
-              openEntity={openEntityTab}
             />
           </Suspense>
         );
@@ -54,7 +34,6 @@ const TabsComponent: React.FC = () => {
           <Suspense fallback={<div>Loading...</div>}>
             <Products
               tabId={tab.tabId}
-              openEntity={openEntityTab}
             />
           </Suspense>
         );
@@ -64,10 +43,9 @@ const TabsComponent: React.FC = () => {
             <Customer
               tabId={tab.tabId}
               entityId={tab.entityId!}
-              entityTitle={tab.entityTitle!}
               closeEntity={tab.closeTab!}
               handleRemoveTab={handleRemoveTab}
-              listTabId={tab.listTabId!}
+              parentTabId={tab.parentTabId!}
               customParameter={tab.customParameter}
             />
           </Suspense>
@@ -78,10 +56,9 @@ const TabsComponent: React.FC = () => {
             <Product
               tabId={tab.tabId}
               entityId={tab.entityId!}
-              entityTitle={tab.entityTitle!}
               closeEntity={tab.closeTab!}
               handleRemoveTab={handleRemoveTab}
-              listTabId={tab.listTabId!}
+              parentTabId={tab.parentTabId!}
               customParameter={tab.customParameter}
             />
           </Suspense>
@@ -105,7 +82,7 @@ const TabsComponent: React.FC = () => {
                     size="small"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleRemoveTab(tab.tabId, lastListTab);
+                      handleRemoveTab(tab.tabId, tab.parentTabId ?? 0);
                     }}
                   >
                     <CloseIcon fontSize="small" />
