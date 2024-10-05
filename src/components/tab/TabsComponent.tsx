@@ -91,7 +91,7 @@ const TabsComponent: React.FC = () => {
       </Tabs>
       <Box mt={2}>
         {tabs.map((tab: TabData) => (
-          <div style={{ margin: "5px" }} key={tab.tabId} hidden={activeTabIndex !== tab.tabId}>
+          <div style={{ margin: "5px" }} key={tab.tabId} hidden={activeTabIndex !== tabs.indexOf(tab)}>
             {renderTabContent(tab)}
           </div>
         ))}
