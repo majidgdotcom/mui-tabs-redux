@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/mui-tabs-redux/static/css/main.de92c854.css",
-    "main.js": "/mui-tabs-redux/static/js/main.bed75578.js",
+    "main.js": "/mui-tabs-redux/static/js/main.c856819f.js",
     "static/js/419.cc3f1082.chunk.js": "/mui-tabs-redux/static/js/419.cc3f1082.chunk.js",
     "static/js/14.080d7e9e.chunk.js": "/mui-tabs-redux/static/js/14.080d7e9e.chunk.js",
     "static/js/349.81807f9f.chunk.js": "/mui-tabs-redux/static/js/349.81807f9f.chunk.js",
@@ -12,7 +12,7 @@
     "static/js/704.ca10f338.chunk.js": "/mui-tabs-redux/static/js/704.ca10f338.chunk.js",
     "index.html": "/mui-tabs-redux/index.html",
     "main.de92c854.css.map": "/mui-tabs-redux/static/css/main.de92c854.css.map",
-    "main.bed75578.js.map": "/mui-tabs-redux/static/js/main.bed75578.js.map",
+    "main.c856819f.js.map": "/mui-tabs-redux/static/js/main.c856819f.js.map",
     "419.cc3f1082.chunk.js.map": "/mui-tabs-redux/static/js/419.cc3f1082.chunk.js.map",
     "14.080d7e9e.chunk.js.map": "/mui-tabs-redux/static/js/14.080d7e9e.chunk.js.map",
     "349.81807f9f.chunk.js.map": "/mui-tabs-redux/static/js/349.81807f9f.chunk.js.map",
@@ -24,6 +24,6 @@
   },
   "entrypoints": [
     "static/css/main.de92c854.css",
-    "static/js/main.bed75578.js"
+    "static/js/main.c856819f.js"
   ]
 }
