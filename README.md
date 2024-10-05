@@ -1,32 +1,31 @@
 React Dynamic Tabs Project (mui-tabs-redux)
 
-This project is a dynamic tab-based interface built using React, Redux Toolkit, and Material-UI. It allows users to manage multiple tabs dynamically, add new tabs, and display information for different entities like Products and Customers. This project showcases my front-end development skills and is designed to be simple yet flexible enough to be expanded further.
+This project is a dynamic tab-based interface built using React, Redux Toolkit, and Material-UI. It allows users to manage multiple tabs dynamically, add new tabs, and display information for different entities like Products and Customers. This project is designed to showcase my front-end development skills and can be easily expanded further.
 
 Features
 
 	•	Dynamic Tabs: Users can add and remove tabs dynamically.
-	•	Persistent Tabs: Tabs state is stored in localStorage, ensuring persistence across page reloads.
-	•	Mock Data: Pre-populated mock data, displayed within a dedicated tab.
-	•	Responsive UI: The interface is responsive, using Material-UI for styling.
-	•	State Management: Redux Toolkit is used for managing tab state (adding/removing tabs).
-
+	•	Persistent Tabs: Tabs’ state is stored in localStorage, ensuring persistence across page reloads.
+	•	Mock Data: Pre-populated mock data is displayed within dedicated tabs.
+	•	Responsive UI: The interface is fully responsive, utilizing Material-UI for modern styling.
+	•	State Management: Redux Toolkit manages tab state (adding/removing tabs).
 
 Tech Stack
 
-	•	React: Frontend framework for building the user interface.
-	•	Redux Toolkit: For state management, specifically for handling dynamic tab operations.
-	•	TypeScript: Strongly typed JavaScript to ensure better code quality.
-	•	Material-UI: For styling and creating a responsive, professional-looking UI.
+	•	React: Frontend library for building the user interface.
+	•	Redux Toolkit: State management for handling dynamic tab operations.
+	•	TypeScript: Strongly-typed JavaScript, ensuring better code quality and development experience.
+	•	Material-UI: Component library for styling and creating a responsive, professional-looking UI.
 	•	localStorage: Used to persist tab state across reloads.
-	•	Mock Data: Demonstrates handling data such as product lists.
+	•	Mock Data: Demonstrates handling data like product and customer lists.
 
 Getting Started
 
-To get a local copy of the project up and running, follow these steps.
+Follow the steps below to get a local copy of the project up and running.
 
 Prerequisites
 
-Ensure you have Node.js and npm (or yarn) installed.
+Ensure you have Node.js and npm (or yarn) installed on your machine.
 
 Installation
 
@@ -52,30 +51,29 @@ npm start
 
 	5.	Open http://localhost:3000 to view it in the browser.
 
-
 Project Structure
 
 src/
 │
 ├── components/
 │   ├── tab/
-│   │   └── TabsComponent.tsx       # Your Tabs component
+│   │   └── TabsComponent.tsx     # Tabs component for handling dynamic tabs
 │   ├── product/
-│   │   ├── Products.tsx   # Products listing component
-│   │   └── Product.tsx    # Individual Product component
+│   │   ├── Products.tsx          # Product listing component
+│   │   └── Product.tsx           # Individual product detail component
 │   └── customer/
-│       ├── Customers.tsx   # Customers listing component
-│       └── Customer.tsx    # Individual Customer component
+│       ├── Customers.tsx         # Customer listing component
+│       └── Customer.tsx          # Individual customer detail component
 │
 ├── stateManagement/
 │   ├── slices/
-│   │   └── tabsSlice.ts            # Redux slice for managing tabs
-│   └── store.ts                    # Main Redux store configuration
+│   │   └── tabsSlice.ts          # Redux slice for managing tab operations
+│   └── store.ts                  # Main Redux store configuration
 │
 ├── interfaces/
-│   ├── ITab.ts                      # Types/interfaces for Tabs data
-│   ├── IProduct.ts                  # Types/interfaces for Products data
-│   └── ICustomer.ts                  # Types/interfaces for Customers data
+│   ├── ITab.ts                   # Types/interfaces for Tabs data
+│   ├── IProduct.ts               # Types/interfaces for Products data
+│   └── ICustomer.ts              # Types/interfaces for Customers data
 │
-├── index.tsx                        # Entry point for the React app
-└── App.tsx                          # Main app component
+├── index.tsx                      # Entry point for the React app
+└── App.tsx                        # Main app component
