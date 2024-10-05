@@ -1,61 +1,63 @@
-React Dynamic Tabs Project (mui-tabs-redux)
+# React Dynamic Tabs Project (mui-tabs-redux)
 
 This project is a dynamic tab-based interface built using React, Redux Toolkit, and Material-UI. It allows users to manage multiple tabs dynamically, add new tabs, and display information for different entities like Products and Customers. This project is designed to showcase my front-end development skills and can be easily expanded further.
 
-Features
+## Releases
 
-	•	Dynamic Tabs: Users can add and remove tabs dynamically.
-	•	Persistent Tabs: Tabs’ state is stored in localStorage, ensuring persistence across page reloads.
-	•	Mock Data: Pre-populated mock data is displayed within dedicated tabs.
-	•	Responsive UI: The interface is fully responsive, utilizing Material-UI for modern styling.
-	•	State Management: Redux Toolkit manages tab state (adding/removing tabs).
+You can view the live demo of the project at the following link:
 
-Tech Stack
+[Live Demo](https://majidgdotcom.github.io/mui-tabs-redux/)
 
-	•	React: Frontend library for building the user interface.
-	•	Redux Toolkit: State management for handling dynamic tab operations.
-	•	TypeScript: Strongly-typed JavaScript, ensuring better code quality and development experience.
-	•	Material-UI: Component library for styling and creating a responsive, professional-looking UI.
-	•	localStorage: Used to persist tab state across reloads.
-	•	Mock Data: Demonstrates handling data like product and customer lists.
+## Features
 
-Getting Started
+- **Dynamic Tabs:** Users can add and remove tabs dynamically.
+- **Persistent Tabs:** Tabs’ state is stored in localStorage, ensuring persistence across page reloads.
+- **Mock Data:** Pre-populated mock data is displayed within dedicated tabs.
+- **Responsive UI:** The interface is fully responsive, utilizing Material-UI for modern styling.
+- **State Management:** Redux Toolkit manages tab state (adding/removing tabs).
+
+## Tech Stack
+
+- **React:** Frontend library for building the user interface.
+- **Redux Toolkit:** State management for handling dynamic tab operations.
+- **TypeScript:** Strongly-typed JavaScript, ensuring better code quality and development experience.
+- **Material-UI:** Component library for styling and creating a responsive, professional-looking UI.
+- **localStorage:** Used to persist tab state across reloads.
+- **Mock Data:** Demonstrates handling data like product and customer lists.
+
+## Getting Started
 
 Follow the steps below to get a local copy of the project up and running.
 
-Prerequisites
+## Prerequisites
 
 Ensure you have Node.js and npm (or yarn) installed on your machine.
 
-Installation
+## Installation
 
 1.	Clone the repository:
 
 	```
 	git clone https://github.com/majidgdotcom/mui-tabs-redux.git
 
-
 2.	Navigate to the project directory:
 
 	```
 	cd mui-tabs-redux
-
 
 3.	Install the dependencies:
 
 	```
 	npm install
 
-
 4.	Start the development server:
 
 	```
 	npm start
 
-
 5.	Open http://localhost:3000 to view it in the browser.
 
-Project Structure
+## Project Structure
 
 	src/
 	│
