@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import { CustomerData, mockCustomerList } from '../../mockData/customers';
 import { EntityListTabProps } from '../../stateManagement/tabsSlice';
-import { addTab, setNullRefreshedTab } from '../../stateManagement/tabsSlice'
+import { addTab, setRefreshedTab } from '../../stateManagement/tabsSlice'
 import { useSelector, useDispatch } from 'react-redux';
 
 const Customers: React.FC<EntityListTabProps> = ({ tabId }) => {
@@ -45,7 +45,7 @@ const Customers: React.FC<EntityListTabProps> = ({ tabId }) => {
 
   useEffect(() => {
     if (refreshedTab === tabId) {
-      dispatch(setNullRefreshedTab())
+      dispatch(setRefreshedTab(undefined))
       getAllCustomer()
     }
   }, [refreshedTab]);

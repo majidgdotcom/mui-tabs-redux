@@ -99,12 +99,12 @@ export const tabsSlice = createSlice({
       state.activeTabIndex = action.payload;
       saveTabsToLocalStorage(state.tabs);
     },
-    setNullRefreshedTab: (state) => {
-      state.refreshedTab = undefined;
+    setRefreshedTab: (state, action: PayloadAction<number|undefined>) => {
+      state.refreshedTab = action.payload;
     },
   },
 });
 
-export const { addTab, removeTab, setActiveTab, removeTabAndRefresh, setNullRefreshedTab } = tabsSlice.actions;
+export const { addTab, removeTab, setActiveTab, removeTabAndRefresh, setRefreshedTab } = tabsSlice.actions;
 
 export default tabsSlice.reducer;
