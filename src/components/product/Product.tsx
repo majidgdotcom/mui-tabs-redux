@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { EntityTabProps } from '../../stateManagement/tabsSlice';
-import { Button, TextField } from '@mui/material';
-import { mockProductList, ProductData } from '../../mockData/product';
-import { removeTabAndRefresh } from '../../stateManagement/tabsSlice'
-const Product: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId, customParameter }) => {
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { mockProductList } from '../../mockData/product';
+import { removeTabAndRefresh } from '../../stateManagement/slices/tabsSlice'
+import { ProductCategory, ProductData } from '../../interfaces/IProduct';
+import { EntityTabProps } from '../../interfaces/ITab';
+
+const Product: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId }) => {
   const dispatch = useDispatch();
-  const [data, setData] = useState<ProductData | null>(null);
+  const [data, setData] = useState<ProductData | null>({
+    id: 0,
+    name: '',
+    price: 0,
+    categoryId: 1,
+  });
 
   const Save = () => {
     // Call API to save
@@ -24,15 +31,19 @@ const Product: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId, custo
     setData((prevData) => prevData ? { ...prevData, [name]: value } : null);
   };
 
+  const handleSelectChange = (e: SelectChangeEvent<number>) => {
+    const { value } = e.target;
+    setData((prevData) => prevData ? { ...prevData, categoryId: value as number } : null);
+  };
+
   useEffect(() => {
-    getProduct()
+    if (entityId > 0) {
+      getProduct()
+    }
   }, []);
 
   return (
     <div>
-      <h2>
-        Type:{customParameter.type}
-      </h2>
       <TextField
         label="Name"
         name="name"
@@ -41,14 +52,18 @@ const Product: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId, custo
         fullWidth
         margin="normal"
       />
-      <TextField
-        label="Category"
-        name="category"
-        value={data?.category}
-        onChange={handleInputChange}
-        fullWidth
-        margin="normal"
-      />
+      <FormControl fullWidth>
+        <InputLabel id="category-label">Category</InputLabel>
+        <Select
+          value={data?.categoryId || ''}
+          onChange={handleSelectChange}
+          label="Category"
+        >
+          {ProductCategory.map((item, index) => (
+            <MenuItem key={index} value={item.id}>{item.title}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       <TextField
         label="Price"
         name="price"
@@ -57,14 +72,15 @@ const Product: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId, custo
         fullWidth
         margin="normal"
       />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={Save}
-        style={{ marginBottom: '16px' }}
-      >
-        Save
-      </Button>
+      <Box display="flex" justifyContent="flex-start" mt={2}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={Save}
+        >
+          Save
+        </Button>
+      </Box>
     </div>
   );
 };

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem } from '@mui/material';
-import { mockProductList, ProductData } from '../../mockData/product';
-import { EntityListTabProps } from '../../stateManagement/tabsSlice';
-import { addTab, setRefreshedTab } from '../../stateManagement/tabsSlice'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem, FormControl, InputLabel, Box } from '@mui/material';
+import { mockProductList } from '../../mockData/product';
+import { addTab, setRefreshedTab } from '../../stateManagement/slices/tabsSlice'
 import { useSelector, useDispatch } from 'react-redux';
+import { ProductCategory, ProductData } from '../../interfaces/IProduct';
+import { EntityListTabProps } from '../../interfaces/ITab';
 
 const Products: React.FC<EntityListTabProps> = ({ tabId }) => {
   const [productList, setProductList] = useState<ProductData[]>([]);
-  const [type, setType] = useState<number>(3);
   const dispatch = useDispatch();
   const { refreshedTab } = useSelector((state: any) => state.tabs);
 
@@ -19,9 +19,6 @@ const Products: React.FC<EntityListTabProps> = ({ tabId }) => {
         isRemovableTab: true,
         entityId: 0,
         parentTabId: tabId,
-        customParameter: {
-          type: type
-        },
       })
     );
   };
@@ -34,17 +31,18 @@ const Products: React.FC<EntityListTabProps> = ({ tabId }) => {
         isRemovableTab: true,
         entityId: productId,
         parentTabId: tabId,
-        customParameter: {
-          type: type
-        },
       })
     );
   };
 
   const getAllProduct = () => {
-    console.log('Get Product list by API or mock data')
+    // Get Product list by API or mock data
     setProductList(mockProductList);
   };
+
+  const getCategory = (id: number): string | undefined => {
+    return ProductCategory.find((item) => item.id === id)?.title
+  }
 
   useEffect(() => {
     getAllProduct()
@@ -59,23 +57,15 @@ const Products: React.FC<EntityListTabProps> = ({ tabId }) => {
 
   return (
     <div>
-      <Select
-        value={type}
-        onChange={(e) => setType(Number(e.target.value))}
-        label="Type">
-        <MenuItem key={1} value={1}>Type 1</MenuItem>
-        <MenuItem key={2} value={2}>Type 2</MenuItem>
-        <MenuItem key={3} value={3}>Type 3</MenuItem>
-        <MenuItem key={4} value={4}>Type 4</MenuItem>
-      </Select>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleNewProduct}
-        style={{ marginBottom: '16px' }}
-      >
-        New Product
-      </Button>
+      <Box display="flex" justifyContent="flex-start" mb={2}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleNewProduct}
+        >
+          New Product
+        </Button>
+      </Box>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -93,7 +83,7 @@ const Products: React.FC<EntityListTabProps> = ({ tabId }) => {
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.id}</TableCell>
                 <TableCell>${product.price}</TableCell>
-                <TableCell>{product.category}</TableCell>
+                <TableCell>{getCategory(product.categoryId)}</TableCell>
                 <TableCell>
                   <Button
                     variant="outlined"

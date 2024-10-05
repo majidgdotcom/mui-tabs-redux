@@ -1,46 +1,81 @@
-# Getting Started with Create React App
+React Dynamic Tabs Project (mui-tabs-redux)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a dynamic tab-based interface built using React, Redux Toolkit, and Material-UI. It allows users to manage multiple tabs dynamically, add new tabs, and display information for different entities like Products and Customers. This project showcases my front-end development skills and is designed to be simple yet flexible enough to be expanded further.
 
-## Available Scripts
+Features
 
-In the project directory, you can run:
+	•	Dynamic Tabs: Users can add and remove tabs dynamically.
+	•	Persistent Tabs: Tabs state is stored in localStorage, ensuring persistence across page reloads.
+	•	Mock Data: Pre-populated mock data, displayed within a dedicated tab.
+	•	Responsive UI: The interface is responsive, using Material-UI for styling.
+	•	State Management: Redux Toolkit is used for managing tab state (adding/removing tabs).
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Tech Stack
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+	•	React: Frontend framework for building the user interface.
+	•	Redux Toolkit: For state management, specifically for handling dynamic tab operations.
+	•	TypeScript: Strongly typed JavaScript to ensure better code quality.
+	•	Material-UI: For styling and creating a responsive, professional-looking UI.
+	•	localStorage: Used to persist tab state across reloads.
+	•	Mock Data: Demonstrates handling data such as product lists.
 
-### `npm test`
+Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To get a local copy of the project up and running, follow these steps.
 
-### `npm run build`
+Prerequisites
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Ensure you have Node.js and npm (or yarn) installed.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+	1.	Clone the repository:
 
-### `npm run eject`
+git clone https://github.com/majidgdotcom/mui-tabs-redux.git
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+	2.	Navigate to the project directory:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+cd mui-tabs-redux
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+	3.	Install the dependencies:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+npm install
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+
+	4.	Start the development server:
+
+npm start
+
+
+	5.	Open http://localhost:3000 to view it in the browser.
+
+
+Project Structure
+
+src/
+│
+├── components/
+│   ├── tab/
+│   │   └── TabsComponent.tsx       # Your Tabs component
+│   ├── product/
+│   │   ├── Products.tsx   # Products listing component
+│   │   └── Product.tsx    # Individual Product component
+│   └── customer/
+│       ├── Customers.tsx   # Customers listing component
+│       └── Customer.tsx    # Individual Customer component
+│
+├── stateManagement/
+│   ├── slices/
+│   │   └── tabsSlice.ts            # Redux slice for managing tabs
+│   └── store.ts                    # Main Redux store configuration
+│
+├── interfaces/
+│   ├── ITab.ts                      # Types/interfaces for Tabs data
+│   ├── IProduct.ts                  # Types/interfaces for Products data
+│   └── ICustomer.ts                  # Types/interfaces for Customers data
+│
+├── index.tsx                        # Entry point for the React app
+└── App.tsx                          # Main app component

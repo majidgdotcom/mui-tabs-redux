@@ -2,7 +2,8 @@ import React, { lazy, Suspense } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Tabs, Tab, Box, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { removeTab, setActiveTab, TabData } from '../../stateManagement/tabsSlice'
+import { removeTab, setActiveTab } from '../../stateManagement/slices/tabsSlice'
+import { TabData } from '../../interfaces/ITab';
 
 const Customers = lazy(() => import('../customer/Customers'));
 const Customer = lazy(() => import('../customer/Customer'));

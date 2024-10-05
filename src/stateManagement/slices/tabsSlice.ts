@@ -1,57 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export interface TabData {
-  tabId: number;
-  tabType: string;
-  tabLabel: string;
-  isRemovableTab: boolean;
-  entityId?: number;
-  parentTabId?: number,
-  customParameter?: any,
-}
-
-export interface AddTabData {
-  tabType: string;
-  tabLabel: string;
-  isRemovableTab: boolean;
-  entityId?: number;
-  parentTabId?: number,
-  customParameter?: any,
-}
-
-export interface removeTabData {
-  tabId: number;
-  parentTabId: number;
-}
-
-export interface removeTabAndRefreshData {
-  tabId: number;
-  parentTabId: number;
-}
-
-export interface TabsState {
-  tabs: TabData[];
-  activeTabIndex: number;
-  refreshedTab?: number;
-}
-
-export interface EntityListTabProps {
-  tabId: number;
-}
-
-export interface EntityTabProps {
-  tabId: number;
-  entityId: number;
-  parentTabId: number,
-  customParameter?: any,
-}
+import { AddTabData, removeTabAndRefreshData, removeTabData, TabData, TabsState } from '../../interfaces/ITab';
 
 // Helper function to load tabs from localStorage
 const loadTabsFromLocalStorage = (): TabData[] => {
   const savedTabs = localStorage.getItem('tabs');
   return savedTabs
     ? JSON.parse(savedTabs)
-    : [
+    :
+    // Example default tab list
+    [
       { tabId: 0, tabLabel: 'Customers', tabType: 'Customers', isRemovableTab: false },
       { tabId: 1, tabLabel: 'Products', tabType: 'Products', isRemovableTab: false },
     ];
@@ -99,7 +56,7 @@ export const tabsSlice = createSlice({
       state.activeTabIndex = action.payload;
       saveTabsToLocalStorage(state.tabs);
     },
-    setRefreshedTab: (state, action: PayloadAction<number|undefined>) => {
+    setRefreshedTab: (state, action: PayloadAction<number | undefined>) => {
       state.refreshedTab = action.payload;
     },
   },

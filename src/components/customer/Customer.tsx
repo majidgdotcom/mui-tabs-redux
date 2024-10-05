@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { EntityTabProps } from "../../stateManagement/tabsSlice";
-import { Button, TextField } from '@mui/material';
-import { CustomerData, mockCustomerList } from '../../mockData/customers';
-import { removeTabAndRefresh } from '../../stateManagement/tabsSlice'
+import { Box, Button, TextField } from '@mui/material';
+import { mockCustomerList } from '../../mockData/customers';
+import { removeTabAndRefresh } from '../../stateManagement/slices/tabsSlice'
+import { CustomerData } from '../../interfaces/ICustomer';
+import { EntityTabProps } from '../../interfaces/ITab';
+
 const Customer: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId }) => {
   const dispatch = useDispatch();
-  const [data, setData] = useState<CustomerData | null>(null);
+  const [data, setData] = useState<CustomerData | null>({
+    id: 0,
+    name: '',
+    email: '',
+  });
 
   const Save = () => {
     // Call API to save
@@ -25,7 +31,9 @@ const Customer: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId }) =>
   };
 
   useEffect(() => {
-    getCustomer()
+    if (entityId > 0) {
+      getCustomer()
+    }
   }, []);
 
   return (
@@ -46,14 +54,15 @@ const Customer: React.FC<EntityTabProps> = ({ tabId, entityId, parentTabId }) =>
         fullWidth
         margin="normal"
       />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={Save}
-        style={{ marginBottom: '16px' }}
-      >
-        Save
-      </Button>
+      <Box display="flex" justifyContent="flex-start" mt={2}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={Save}
+        >
+          Save
+        </Button>
+      </Box>
     </div>
   );
 };

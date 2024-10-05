@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import tabsReducer from './tabsSlice';
+import tabsReducer from './slices/tabsSlice';
 
 const store = configureStore({
   reducer: {

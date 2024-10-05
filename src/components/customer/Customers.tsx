@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
-import { CustomerData, mockCustomerList } from '../../mockData/customers';
-import { EntityListTabProps } from '../../stateManagement/tabsSlice';
-import { addTab, setRefreshedTab } from '../../stateManagement/tabsSlice'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Box } from '@mui/material';
+import { mockCustomerList } from '../../mockData/customers';
+import { addTab, setRefreshedTab } from '../../stateManagement/slices/tabsSlice'
 import { useSelector, useDispatch } from 'react-redux';
+import { CustomerData } from '../../interfaces/ICustomer';
+import { EntityListTabProps } from '../../interfaces/ITab';
 
 const Customers: React.FC<EntityListTabProps> = ({ tabId }) => {
   const [customerList, setCustomerList] = useState<CustomerData[]>([]);
@@ -35,7 +36,7 @@ const Customers: React.FC<EntityListTabProps> = ({ tabId }) => {
   };
 
   const getAllCustomer = () => {
-    console.log('Get Customer list by API or mock data')
+    // Get Customer list by API or mock data
     setCustomerList(mockCustomerList);
   };
 
@@ -52,14 +53,15 @@ const Customers: React.FC<EntityListTabProps> = ({ tabId }) => {
 
   return (
     <div>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleNewCustomer}
-        style={{ marginBottom: '16px' }}
-      >
-        New Customer
-      </Button>
+      <Box display="flex" justifyContent="flex-start" mb={2}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleNewCustomer}
+        >
+          New Customer
+        </Button>
+      </Box>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
