@@ -1,17 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AddTabData, removeTabAndRefreshData, removeTabData, TabData, TabsState } from '../../interfaces/ITab';
+import { AddTabData, RemoveTabData, TabData, TabsState } from '../../interfaces/ITab';
 
-// Helper function to load tabs from localStorage
 const loadTabsFromLocalStorage = (): TabData[] => {
-  const savedTabs = localStorage.getItem('tabs');
-  return savedTabs
-    ? JSON.parse(savedTabs)
-    :
-    // Example default tab list
-    [
-      { tabId: 0, tabLabel: 'Customers', tabType: 'Customers', isRemovableTab: false },
-      { tabId: 1, tabLabel: 'Products', tabType: 'Products', isRemovableTab: false },
-    ];
+  const saved = localStorage.getItem('tabs');
+  return saved
+    ? JSON.parse(saved)
+    : [
+        { tabId: 0, tabLabel: 'Customers', tabType: 'Customers', isRemovableTab: false },
+        { tabId: 1, tabLabel: 'Products',  tabType: 'Products',  isRemovableTab: false },
+      ];
 };
 
 const saveTabsToLocalStorage = (tabs: TabData[]) => {
@@ -20,7 +17,9 @@ const saveTabsToLocalStorage = (tabs: TabData[]) => {
 
 const initialState: TabsState = {
   tabs: loadTabsFromLocalStorage(),
-  activeTabIndex: 0,
+  // activeTabId stores the tabId (not array index) of the selected tab,
+  // so it stays stable when other tabs are added or removed.
+  activeTabId: 0,
 };
 
 export const tabsSlice = createSlice({
@@ -28,7 +27,7 @@ export const tabsSlice = createSlice({
   initialState,
   reducers: {
     addTab: (state, action: PayloadAction<AddTabData>) => {
-      const newTabId = Math.max(...state.tabs.map((item: TabData) => item.tabId), 0) + 1;
+      const newTabId = Math.max(...state.tabs.map((t) => t.tabId), 0) + 1;
       state.tabs.push({
         tabId: newTabId,
         tabType: action.payload.tabType,
@@ -38,30 +37,41 @@ export const tabsSlice = createSlice({
         parentTabId: action.payload.parentTabId,
         customParameter: action.payload.customParameter,
       });
-      state.activeTabIndex = newTabId;
+      state.activeTabId = newTabId;
       saveTabsToLocalStorage(state.tabs);
     },
-    removeTab: (state, action: PayloadAction<removeTabData>) => {
-      state.tabs = state.tabs.filter((tab) => tab.tabId !== action.payload.tabId);
-      state.activeTabIndex = action.payload.parentTabId;
+
+    removeTab: (state, action: PayloadAction<RemoveTabData>) => {
+      state.tabs = state.tabs.filter((t) => t.tabId !== action.payload.tabId);
+      state.activeTabId = action.payload.parentTabId;
       saveTabsToLocalStorage(state.tabs);
     },
-    removeTabAndRefresh: (state, action: PayloadAction<removeTabAndRefreshData>) => {
-      state.tabs = state.tabs.filter((tab) => tab.tabId !== action.payload.tabId);
-      state.activeTabIndex = action.payload.parentTabId;
+
+    removeTabAndRefresh: (state, action: PayloadAction<RemoveTabData>) => {
+      state.tabs = state.tabs.filter((t) => t.tabId !== action.payload.tabId);
+      state.activeTabId = action.payload.parentTabId;
       state.refreshedTab = action.payload.parentTabId;
       saveTabsToLocalStorage(state.tabs);
     },
+
     setActiveTab: (state, action: PayloadAction<number>) => {
-      state.activeTabIndex = action.payload;
+      // Receives a tabId — not an array index.
+      state.activeTabId = action.payload;
       saveTabsToLocalStorage(state.tabs);
     },
+
     setRefreshedTab: (state, action: PayloadAction<number | undefined>) => {
       state.refreshedTab = action.payload;
     },
   },
 });
 
-export const { addTab, removeTab, setActiveTab, removeTabAndRefresh, setRefreshedTab } = tabsSlice.actions;
+export const {
+  addTab,
+  removeTab,
+  setActiveTab,
+  removeTabAndRefresh,
+  setRefreshedTab,
+} = tabsSlice.actions;
 
 export default tabsSlice.reducer;

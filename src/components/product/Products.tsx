@@ -1,68 +1,63 @@
-import React, { useEffect, useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem, FormControl, InputLabel, Box } from '@mui/material';
+import React, { useEffect, useState, useCallback } from 'react';
+import {
+  Table, TableBody, TableCell, TableContainer, TableHead,
+  TableRow, Paper, Button, Box,
+} from '@mui/material';
 import { mockProductList } from '../../mockData/product';
-import { addTab, setRefreshedTab } from '../../stateManagement/slices/tabsSlice'
+import { addTab, setRefreshedTab } from '../../stateManagement/slices/tabsSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../stateManagement/store';
 import { ProductCategory, ProductData } from '../../interfaces/IProduct';
 import { EntityListTabProps } from '../../interfaces/ITab';
 
 const Products: React.FC<EntityListTabProps> = ({ tabId }) => {
   const [productList, setProductList] = useState<ProductData[]>([]);
   const dispatch = useDispatch();
-  const { refreshedTab } = useSelector((state: any) => state.tabs);
+  const { refreshedTab } = useSelector((state: RootState) => state.tabs);
 
   const handleNewProduct = () => {
-    dispatch(
-      addTab({
-        tabType: 'Product',
-        tabLabel: 'New product',
-        isRemovableTab: true,
-        entityId: 0,
-        parentTabId: tabId,
-      })
-    );
+    dispatch(addTab({
+      tabType: 'Product',
+      tabLabel: 'New product',
+      isRemovableTab: true,
+      entityId: 0,
+      parentTabId: tabId,
+    }));
   };
 
   const handleEditProduct = (productId: number) => {
-    dispatch(
-      addTab({
-        tabType: 'Product',
-        tabLabel: 'Edit product',
-        isRemovableTab: true,
-        entityId: productId,
-        parentTabId: tabId,
-      })
-    );
+    dispatch(addTab({
+      tabType: 'Product',
+      tabLabel: 'Edit product',
+      isRemovableTab: true,
+      entityId: productId,
+      parentTabId: tabId,
+    }));
   };
 
-  const getAllProduct = () => {
-    // Get Product list by API or mock data
+  const getCategory = (id: number): string =>
+    ProductCategory.find((item) => item.id === id)?.title ?? 'Unknown';
+
+  const getAllProducts = useCallback(() => {
+    // Replace with an API call in a real application
     setProductList(mockProductList);
-  };
-
-  const getCategory = (id: number): string | undefined => {
-    return ProductCategory.find((item) => item.id === id)?.title
-  }
-
-  useEffect(() => {
-    getAllProduct()
   }, []);
 
   useEffect(() => {
+    getAllProducts();
+  }, [getAllProducts]);
+
+  useEffect(() => {
     if (refreshedTab === tabId) {
-      dispatch(setRefreshedTab(undefined))
-      getAllProduct()
+      dispatch(setRefreshedTab(undefined));
+      getAllProducts();
     }
-  }, [refreshedTab]);
+  }, [refreshedTab, tabId, dispatch, getAllProducts]);
 
   return (
     <div>
       <Box display="flex" justifyContent="flex-start" mb={2}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleNewProduct}
-        >
+        <Button variant="contained" color="primary" onClick={handleNewProduct}>
           New Product
         </Button>
       </Box>
@@ -74,7 +69,7 @@ const Products: React.FC<EntityListTabProps> = ({ tabId }) => {
               <TableCell>ID</TableCell>
               <TableCell>Price</TableCell>
               <TableCell>Category</TableCell>
-              <TableCell>Actions</TableCell> {/* Column for buttons */}
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
